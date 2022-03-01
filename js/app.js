@@ -1,20 +1,34 @@
+const errorMsg = displayName => {
+    document.getElementById('error1').style.display = displayName;
+}
 const searchPhone = () => {
     const searchFeild = document.getElementById('search-feild');
     const searchFeildValue = searchFeild.value;
-    const url = `https://openapi.programming-hero.com/api/phones?search=${searchFeildValue}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(data => loadPhone(data.data));
+    if (searchFeildValue === '') {
+        errorMsg('block');
+    } else {
+        const url = `https://openapi.programming-hero.com/api/phones?search=${searchFeildValue}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => loadPhone(data.data));
+    }
 }
 const loadPhone = (phones) => {
     const phonesDiv = document.getElementById('phones');
-    phones.forEach(phone => {
-        console.log(phone);
-        const div = document.createElement('div');
-        div.classList.add('col');
-        div.innerHTML = `
+    if (phones.length === 0) {
+        errorMsg('block');
+        phonesDiv.innerHTML = '';
+    }
+    else {
+        errorMsg('none');
+        phonesDiv.innerHTML = '';
+        phones.forEach(phone => {
+            // console.log(phone);
+            const div = document.createElement('div');
+            div.classList.add('col');
+            div.innerHTML = `
         <div class="card h-100">
-            <img src="${phone.image}" class="card-img-top " alt="">
+            <img src="${phone.image}" class="img-fluid card-img-top " alt="">
             <div class="card-body">
                 <h5 class="card-title">${phone.phone_name}</h5>
                 <p class="card-text">${phone.brand}</p>
@@ -22,8 +36,9 @@ const loadPhone = (phones) => {
             </div>
         </div>
         `
-        phonesDiv.appendChild(div);
-    })
+            phonesDiv.appendChild(div);
+        })
+    }
 }
 const loadDetails = (phoneId) => {
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
@@ -31,6 +46,42 @@ const loadDetails = (phoneId) => {
         .then(res => res.json())
         .then(data => displayDetails(data.data))
 }
-const displayDetails = (Details) => {
-  console.log(Details);
+const displayDetails = (phone) => {
+    console.log(phone);
+    const detailsDiv = document.getElementById('details');
+    detailsDiv.textContent = '';
+    const div = document.createElement('div');
+    div.classList.add('card');
+    div.classList.add('mb-3');
+    div.classList.add('m-auto');
+    div.style = "max-width: 1140px;"
+    div.innerHTML = `
+    <div class="row g-0">
+      <div class="col-md-2">
+       <img src="${phone.image}" class="img-fluid rounded-start" alt="">
+      </div>
+      <div class="col-md-10">
+       <div class="card-body">
+        <h5 class="card-title">${phone.name}</h5>
+        <p class="card-text">Storage: ${phone.mainFeatures.storage}</p>
+        <p class="card-text">DisplaySize: ${phone.mainFeatures.displaySize}</p>
+        <p class="card-text">ChipSet: ${phone.mainFeatures.chipSet}</p>
+        <p class="card-text">Memory: ${phone.mainFeatures.memory}</p>
+        <p class="card-text"><small class="text-muted">${phone.releaseDate}</small></p>
+        <p class="card-text">Sensors: ${phone.mainFeatures.sensors}</p>
+        <p class="card-text">Others Features : ${displayOthers(phone.others)}</p>
+       </div>
+      </div>
+    </div>
+        `
+    detailsDiv.appendChild(div);
+}
+const displayOthers = (others) => {
+    console.log(others);
+    let result = ``;
+    for (const item in others) {
+        result = result + `${item} : ${others[item]} `;
+        console.log((item + ':' + others[item]));
+    }
+    return result;
 }

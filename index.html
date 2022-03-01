@@ -12,7 +12,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <!-- search area -->
-<div class="w-75 mx-auto">
+<div class=" mx-auto" style="max-width: 540px;">
     <h1 class="text-success text-center mb-3">Phone Finder</h1>
     <div class="input-group mb-3 ">
         <input id="search-feild" type="text" class="form-control " placeholder="Find your favourite phone."
@@ -20,25 +20,28 @@
         <button onclick="searchPhone()" class="btn btn-outline-secondary " type="button" id="search-btn">search</button>
     </div>
 </div>
+<!-- error msg1 -->
+<p id="error1" class="text-danger text-center">No phone found</p>
 <!-- single phone details -->
 <div id="details">
-    <div class="card mb-3 m-auto" style="max-width: 540px;">
+    <!-- <div class="card mb-3 m-auto" style="max-width: 1140px;">
         <div class="row g-0">
-          <div class="col-md-4">
-            <img src="..." class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
+              <div class="col-md-2">
+                <img src="..." class="img-fluid rounded-start" alt="...">
+             </div>
+             <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+             </div>
         </div>
-      </div>
+    </div> -->
 </div>
 <!--  result area -->
-<div id="phones" class="row row-cols-1 row-cols-md-3 g-5 w-50 mx-auto ">  
+<div id="phones" class="row row-cols-1 row-cols-md-3 g-5 w-50 mx-auto ">
 </div>
 
 <!-- connect js -->
