@@ -1,3 +1,29 @@
 #error1{
     display: none;
 }
+#error2{
+    display: none;
+}
+#show-more{
+    display: none;
+}
+#spniner{
+    display: none;
+}
+.text{
+    color: rgb(6, 66, 122);
+}
+
+@media only screen and (min-width: 768px) {
+    #phones {
+      width: 50%;
+    }
+    #image{
+        width: 80%;
+    }
+};
+@media only screen and (max-width: 600px) {
+    #phones {
+      width: 80%;
+    }
+}
