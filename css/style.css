@@ -1,3 +1,6 @@
+body{
+    background-color: #fdfcfc;
+}
 #error1{
     display: none;
 }
@@ -13,8 +16,17 @@
 .text{
     color: rgb(6, 66, 122);
 }
-
-@media only screen and (min-width: 768px) {
+.color{
+    color: rgb(73, 69, 69);
+    font-size: 22px;
+    font-weight: 500;
+}
+.phone-name{
+    color: darkslategrey;
+    font-size: 2rem;
+    font-weight: 700;
+}
+@media only screen and (min-width: 1024px) {
     #phones {
       width: 50%;
     }
@@ -23,6 +35,11 @@
     }
 };
 @media only screen and (max-width: 600px) {
+    #phones {
+      width: 80%;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
     #phones {
       width: 80%;
     }

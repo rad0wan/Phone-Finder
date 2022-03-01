@@ -12,6 +12,7 @@ const spninerToggole = displayStyle => {
 }
 // search btn handle
 const searchPhone = () => {
+    document.getElementById('details').textContent = '';
     spninerToggole('block');
     const searchFeild = document.getElementById('search-feild');
     const searchFeildValue = searchFeild.value;
@@ -27,8 +28,6 @@ const searchPhone = () => {
 }
 // load phone data
 const loadPhone = (phones) => {
-
-    // console.log(phones.slice(0, 20));
     const phonesDiv = document.getElementById('phones');
     if (phones.length === 0) {
         errorMsg('block');
@@ -57,19 +56,48 @@ const loadPhone = (phones) => {
             phonesDiv.appendChild(div);
             spninerToggole('none')
         });
-        document.getElementById('show-more').style.display = 'block';
-        const showMoreDiv = document.getElementById('show-more')
-        const div = document.createElement('div');
-        div.classList.add('text-center')
-        div.classList.add('my-3')
-        div.innerHTML = `
-           <button onclick="showMore('${phones}')" class="btn btn-outline-secondary " type="button" id="show-more-btn">Show More</button>
+        if (phones.length < 21) {
+            document.getElementById('show-more').style.display = 'none';
+        } else {
+            document.getElementById('show-more').style.display = 'block';
+            const showMoreDiv = document.getElementById('show-more')
+            showMoreDiv.classList.add('text-center')
+            showMoreDiv.classList.add('my-3')
+            showMoreDiv.innerHTML = `
+           <button onclick="showMore()" class="btn btn-outline-secondary " type="button" id="show-more-btn">Show More</button>
         `
+            console.log(phones.slice(0, 20));
+        }
     }
 }
 // show-more 
-const showMore = (phones) => {
-    console.log(phones.slice(21, 200));
+const showMore = () => {
+    const searchFeild = document.getElementById('search-feild');
+    const searchFeildValue = searchFeild.value;
+    const url = `https://openapi.programming-hero.com/api/phones?search=${searchFeildValue}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => showMoreDetails(data.data));
+}
+const showMoreDetails = (phones) => {
+    const phonesDiv = document.getElementById('phones');
+    phones.slice(21, 250).forEach(phone => {
+        // console.log(phone);
+        const div = document.createElement('div');
+        div.classList.add('col');
+        div.innerHTML = `
+    <div class="card h-100 shadow-sm border-0">
+        <img src="${phone.image}" class="img-fluid card-img-top "  alt="">
+        <div class="card-body">
+            <h5 class="card-title">${phone.phone_name}</h5>
+            <p class="card-text">${phone.brand}</p> 
+        </div>
+        <button onclick="loadDetails('${phone.slug}')" type="button" class="btn btn-success mx-auto px-3 mb-2">Details</button>
+    </div>
+    `
+        phonesDiv.appendChild(div);
+    });
+    document.getElementById('show-more').style.display = 'none';
 }
 // load phone details
 const loadDetails = (phoneId) => {
@@ -80,7 +108,6 @@ const loadDetails = (phoneId) => {
 }
 // display phone details
 const displayDetails = (phone) => {
-    // console.log(phone);
     const detailsDiv = document.getElementById('details');
     detailsDiv.textContent = '';
     const div = document.createElement('div');
@@ -92,19 +119,19 @@ const displayDetails = (phone) => {
     div.style = "max-width: 1140px;"
     div.innerHTML = `
     <div class="row g-0 ">
-      <div class="col-md-2">
+      <div class="col-md-2 ">
        <img id="image" src="${phone.image}" class="img-fluid rounded-start" alt="">
       </div>
       <div class="col-md-10">
        <div class="card-body">
-        <h5 class="card-title">${phone.name}</h5>
-        <p class="text card-text">Storage: ${phone.mainFeatures.storage}</p>
-        <p class="text card-text">DisplaySize: ${phone.mainFeatures.displaySize}</p>
-        <p class="text card-text">ChipSet: ${phone.mainFeatures.chipSet}</p>
-        <p class="text card-text">Memory: ${phone.mainFeatures.memory}</p>
+        <h5 class="card-title phone-name">${phone.name}</h5>
+        <p class="text card-text"><span class="color">Storage:</span> ${phone.mainFeatures.storage}</p>
+        <p class="text card-text"><span class="color">DisplaySize:</span> ${phone.mainFeatures.displaySize}</p>
+        <p class="text card-text"><span class="color">ChipSet:</span> ${phone.mainFeatures.chipSet}</p>
+        <p class="text card-text"><span class="color">Memory:</span> ${phone.mainFeatures.memory}</p>
         <p id="rel" class="card-text"><small class="text-muted">${phone.releaseDate == '' ? 'Release date is not found.' : phone.releaseDate}</small></p>
-        <p class="card-text">Sensors: ${phone.mainFeatures.sensors}</p>
-        <p class="card-text">Others Features : ${displayOthers(phone.others) == '' ? 'no' : displayOthers(phone.others)}</p>
+        <p class="card-text"><span class="color">Sensors:</span> ${phone.mainFeatures.sensors}</p>
+        <p class="card-text"><span class="color">Others Features :</span> ${displayOthers(phone.others) == '' ? 'no' : displayOthers(phone.others)}</p>
        </div>
       </div>
     </div>
@@ -113,12 +140,9 @@ const displayDetails = (phone) => {
 }
 // Others Features
 const displayOthers = (others) => {
-    // console.log(others);
     let result = ``;
     for (const item in others) {
-        result = result + `${item} : ${others[item]} `;
-        // console.log((item + ':' + others[item]));
+        result = result + `${item} : ${others[item]}. `;
     }
     return result;
 }
-
