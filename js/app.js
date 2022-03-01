@@ -1,6 +1,8 @@
+// error msg 
 const errorMsg = displayName => {
     document.getElementById('error1').style.display = displayName;
 }
+// search btn handle
 const searchPhone = () => {
     const searchFeild = document.getElementById('search-feild');
     const searchFeildValue = searchFeild.value;
@@ -13,6 +15,7 @@ const searchPhone = () => {
             .then(data => loadPhone(data.data));
     }
 }
+// load phone data
 const loadPhone = (phones) => {
     const phonesDiv = document.getElementById('phones');
     if (phones.length === 0) {
@@ -40,12 +43,14 @@ const loadPhone = (phones) => {
         })
     }
 }
+// load phone details
 const loadDetails = (phoneId) => {
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
     fetch(url)
         .then(res => res.json())
         .then(data => displayDetails(data.data))
 }
+// display phone details
 const displayDetails = (phone) => {
     console.log(phone);
     const detailsDiv = document.getElementById('details');
@@ -67,7 +72,7 @@ const displayDetails = (phone) => {
         <p class="card-text">DisplaySize: ${phone.mainFeatures.displaySize}</p>
         <p class="card-text">ChipSet: ${phone.mainFeatures.chipSet}</p>
         <p class="card-text">Memory: ${phone.mainFeatures.memory}</p>
-        <p class="card-text"><small class="text-muted">${phone.releaseDate}</small></p>
+        <p class="card-text"><small class="text-muted">${cheackRelease(phone.releaseDate)}</small></p>
         <p class="card-text">Sensors: ${phone.mainFeatures.sensors}</p>
         <p class="card-text">Others Features : ${displayOthers(phone.others)}</p>
        </div>
@@ -76,6 +81,7 @@ const displayDetails = (phone) => {
         `
     detailsDiv.appendChild(div);
 }
+// Others Features
 const displayOthers = (others) => {
     console.log(others);
     let result = ``;
@@ -84,4 +90,8 @@ const displayOthers = (others) => {
         console.log((item + ':' + others[item]));
     }
     return result;
+}
+// releaseDate area
+const cheackRelease = releaseDate => {
+    console.log(releaseDate);
 }
